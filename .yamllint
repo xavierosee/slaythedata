@@ -1,0 +1,42 @@
+---
+
+extends: default
+
+ignore:
+  - dbt_packages
+  - target
+  - logs
+
+rules:
+  brackets:
+    forbid: false
+    max-spaces-inside: 1
+    max-spaces-inside-empty: 0
+    min-spaces-inside: 1
+    min-spaces-inside-empty: 0
+  colons:
+    max-spaces-after: 1
+    max-spaces-before: 0
+  commas:
+    max-spaces-after: 1
+    max-spaces-before: 0
+    min-spaces-after: 1
+  comments:
+    level: warning
+    min-spaces-from-content: 2
+    require-starting-space: true
+  comments-indentation:
+    level: warning
+  empty-values: enable
+  line-length:
+    allow-non-breakable-inline-mappings: false
+    allow-non-breakable-words: true
+    max: 80
+  trailing-spaces: enable
+  truthy:
+    level: warning
+
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+  - '.yamllint'

@@ -1,0 +1,53 @@
+---
+
+name: Check Code
+
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  lint:
+    name: Linters
+    runs-on: ubuntu_latest
+
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Fetch all history
+        run: git fetch --unshallow
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          cache: 'pip'
+          python-version: '3.10.4'
+
+      - name: Install python packages
+        run: python -m pip install -r .github/workflows/requirements.txt
+
+      - name: Get changed files
+        id: changes
+        # yamllint disable rule:line-length
+        run: |
+          echo "YML=$(
+          git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} |
+          grep -E '.yml$|.yaml$' | xargs)" >> $GITHUB_ENV
+        # yamllint enable rule:line-length
+
+      - name: Lint changed YAML
+        id: lint_yml
+        if: env.YML
+        shell: bash -l {0}
+        run: "yamllint -s format github $YML"
