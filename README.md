@@ -4,6 +4,6 @@ Back in 2020, Mega Crit Games, developer of popular roguelike deck-building game
 
 This is my attempt of trying to build something with it, most specifically an end-to-end Data Engineering project.
 
-## Orchestrating the management of all the VMs used for this project
+## Resources used
 
-While I could theoretically run all this on my machine (and watch as my Macbook Pro takes flight to then crash and burn), I decided to use Terraform for managing the servers, and Ansible for configuring them.
+see [the terraform README](terraform.README.MD)
